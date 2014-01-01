@@ -31,12 +31,12 @@ define( [ 'jquery', 'class/Camera' ], function( $, Camera ){
 		
 		console.log("canvas init-ed");
 		
-	}
+	};
 	
 	Canvas.prototype.draw = function(){
 
 		
-	}
+	};
 	
 	return Canvas;
 	

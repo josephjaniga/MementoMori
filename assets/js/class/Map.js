@@ -22,7 +22,7 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 		this.width = this.tilesWide * t.width;
 
 		// the camera
-		this.camera = new Camera( function(){}, this.game.canvas.width, this.game.canvas.height);
+		this.camera = new Camera( function(){}, this.game.canvas.width, this.game.canvas.height, this.game );
 
 		
 		// the tileMap init
@@ -62,13 +62,6 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 
 	Map.prototype.draw = function( context ) {
 
-		this.tileMap.forEach( function( tileRow ){
-			tileRow.forEach( function( tile ){
-				tile.draw(context);
-			});
-		});
-	
-		/* BROKEN CAM
 		if ( !this.camera.fixed ){
 			
 			var camRef = this.camera;
@@ -76,7 +69,7 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 			this.tileMap.forEach( function( tileRow ){
 				tileRow.forEach( function( tile ){
 					if ( camRef.onCamera(tile) ){
-						tile.offsetThis(camRef).draw(context);
+						camRef.apply(tile).draw(context);
 					}
 				});
 			});
@@ -90,8 +83,6 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 			});
 		
 		}		
-		*/
-		
 		
 		/*
 		 * the map name

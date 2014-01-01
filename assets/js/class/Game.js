@@ -28,7 +28,7 @@ define( [ 'jquery', 'class/Canvas', 'class/Map', 'class/Player' ], function( $, 
 	
 		
 		// the user controlled player character
-		this.player = new Player(0, 0);
+		this.player = new Player(this.canvas.width/2, this.canvas.height/2);
 		this.player.init(this);
 		
 	};
@@ -47,7 +47,14 @@ define( [ 'jquery', 'class/Canvas', 'class/Map', 'class/Player' ], function( $, 
 	Game.prototype.update = function( game ){
 		
 		this.map.update( game );
-		
+
+		// debugger
+			$('#debugga .stuff').html('');
+			$('#debugga .stuff').append($('<p>Player Orig:('+this.player.oX+', '+this.player.oY+')</p>'));
+			$('#debugga .stuff').append($('<p>Player Screen:('+this.player.x+', '+this.player.y+')</p>'));
+			$('#debugga .stuff').append($('<p>Camera:('+this.map.camera.offsetX+', '+this.map.camera.offsetY+')</p>'));
+			
+			
 		this.player.update( game );
 
 		this.calculateFPS();

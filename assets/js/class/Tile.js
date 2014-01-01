@@ -5,10 +5,17 @@ define( ['jquery'], function( $ ){
 	function Tile ( x, y, id, type, color, passable ) {
 		
 		this.game = null;
+		
+		// the original coords
 		this.oX = x || 0;
-		this.oY = y || 0; 
+		this.oY = y || 0;
+
 		this.id = id || null;
 		
+		// the onscreen coords
+		this.x = x || 0;
+		this.y = y || 0;
+
 		this.width = 32;
 		this.height = 32;
 		
@@ -27,8 +34,8 @@ define( ['jquery'], function( $ ){
 	Tile.prototype.draw = function( context ){
 		context.fillStyle = this.color;
 		context.strokeStyle = "rgb(50,50,50)";
-		context.fillRect( this.oX, this.oY, this.width, this.height );
-		context.strokeRect( this.oX, this.oY, this.width, this.height );
+		context.fillRect( this.x, this.y, this.width, this.height );
+		context.strokeRect( this.x, this.y, this.width, this.height );
 	};
 	
 	Tile.prototype.tileType = function( type ){

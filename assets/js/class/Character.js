@@ -7,9 +7,14 @@ define( ['jquery'], function( $ ){
 		// reference
 		this.game = null;
 		
-		// attributes
+		// the original coords
 		this.oX = x || 0;
 		this.oY = y || 0;
+
+		// the onscreen coords
+		this.x = x || 0;
+		this.y = y || 0;
+		
 		this.width = 16;
 		this.height = 16;
 		this.color = "rgb(0,220,255)";
@@ -37,22 +42,22 @@ define( ['jquery'], function( $ ){
 			if ( this.iC.sDown ) { // down check
 				this.direction = 1;
 				if ( !this.collisionDown )
-					this.oY += this.movementSpeed;
+					this.y += this.movementSpeed;
 			}
 			if ( this.iC.aDown ) { // left check
 				this.direction = 2;
 				if ( !this.collisionLeft )
-					this.oX -= this.movementSpeed;
+					this.x -= this.movementSpeed;
 			}
 			if ( this.iC.dDown ) { // right check
 				this.direction = 3;
 				if ( !this.collisionRight )
-					this.oX += this.movementSpeed;
+					this.x += this.movementSpeed;
 			}
 			if ( this.iC.wDown ) { // up check
 				this.direction = 0;
 				if ( !this.collisionUp )
-					this.oY -= this.movementSpeed;
+					this.y -= this.movementSpeed;
 			}
 		}
 	
@@ -65,7 +70,7 @@ define( ['jquery'], function( $ ){
 	Character.prototype.draw = function( context ){
 		context.fillStyle = this.color;
 		context.beginPath();
-		context.arc( this.oX, this.oY, this.width/2, 0, Math.PI*2, true); 
+		context.arc( this.x, this.y, this.width/2, 0, Math.PI*2, true); 
 		context.closePath();
 		context.fill();
 	};

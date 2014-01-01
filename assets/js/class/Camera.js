@@ -2,7 +2,7 @@ console.log('class/Camera.js loaded...');
 
 define( [ 'jquery' ], function( $ ){
 	
-	function Camera ( cam_func, width, height, game) {
+	function Camera ( cam_func, width, height, game ) {
 		
 		this.game = game,
 		
@@ -18,25 +18,22 @@ define( [ 'jquery' ], function( $ ){
 		
 	};
 	
-	Camera.prototype.update = function(target){
-		this.offsetX = target.oX;
-		this.offsetY = target.oY;
+	Camera.prototype.update = function( target ){
+		
+		// set the camera to the position of the target
+		this.offsetX = target.x;
+		this.offsetY = target.y;
+		
+		// clamp camera to the bounds of the map
+		//this.ClampToMap( this.game );`
 	};
 	
 
-
-
-	/*
-	 * 
-	 * NOT WORKING
-	 */
-	
 	Camera.prototype.apply = function( element ){
-		element.oX -= this.offsetX;
-		element.oY -= this.offsetY;
+		element.x = element.oX - this.offsetX;
+		element.y = element.oY - this.offsetY;
 		return element;
 	};
-	
 	
 	
 	/*
@@ -46,8 +43,8 @@ define( [ 'jquery' ], function( $ ){
 	
 	Camera.prototype.onCamera = function( element ){
 		
-		if ( element.oX >= this.offsetX && element.oX <= this.offsetX + this.width ){
-			if ( element.oY >= this.offsetY && element.oY <= this.offsetY + this.height ){
+		if ( element.x >= this.offsetX - (this.game.canvas.width/2) && element.x <= this.offsetX + (this.game.canvas.width/2) ){
+			if ( element.y >= this.offsetY - (this.game.canvas.height/2) && element.y <= this.offsetY + (this.game.canvas.height/2) ){
 				return true;
 			} else {
 				return false;
@@ -55,6 +52,20 @@ define( [ 'jquery' ], function( $ ){
 		} else {
 			return false;
 		}
+		
+	};
+	
+	Camera.prototype.ClampToMap = function( game ){
+		
+		var screenWidth = game.canvas.width,
+			screenHeight= game.canvas.height,
+			minX		= (screenWidth / 2),
+			minY		= (screenHeight / 2),
+			maxX		= game.canvas.width - (screenWidth/2),
+			maxY		= game.canvas.height - (screenHeight/2);
+			
+		this.offsetX = Math.max(minX, Math.min(this.offsetX, maxX));
+		this.offsetY = Math.max(minY, Math.min(this.offsetY, maxY));
 		
 	};
 	
