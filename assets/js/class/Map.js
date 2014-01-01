@@ -22,7 +22,7 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 		this.width = this.tilesWide * t.width;
 
 		// the camera
-		this.camera = new Camera( function(){}, this.width, this.height);
+		this.camera = new Camera( function(){}, this.game.canvas.width, this.game.canvas.height);
 
 		
 		// the tileMap init
@@ -50,29 +50,59 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 			}
 		}
 		
-	}
+	};
 
 	Map.prototype.update = function( game ){
 		
+		var camRef = this.camera;
+		
 		this.camera.update( game.player );
 		
-	}
+	};
 
 	Map.prototype.draw = function( context ) {
-	
-		this.tileMap.forEach( function(tileRow){
+
+		this.tileMap.forEach( function( tileRow ){
 			tileRow.forEach( function( tile ){
-				tile.draw(context);	
+				tile.draw(context);
 			});
 		});
+	
+		/* BROKEN CAM
+		if ( !this.camera.fixed ){
+			
+			var camRef = this.camera;
+	
+			this.tileMap.forEach( function( tileRow ){
+				tileRow.forEach( function( tile ){
+					if ( camRef.onCamera(tile) ){
+						tile.offsetThis(camRef).draw(context);
+					}
+				});
+			});
+			
+		} else {
+				
+			this.tileMap.forEach( function( tileRow ){
+				tileRow.forEach( function( tile ){
+					tile.draw(context);
+				});
+			});
 		
+		}		
+		*/
+		
+		
+		/*
+		 * the map name
+		 */
 		
 		// Draw the Map Name
 		// context.font = "10pt Arial";
 		// context.fillStyle = "rgb(255,255,255)";
 		// context.fillText(this.name, 10, 20);
 		
-	}
+	};
 	
 	
 	/*
@@ -86,7 +116,7 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 		 		tileY = ( y - remainder ) / this.tileMap[0][0].height;
 		
 		return this.tileMap[tileX][tileY];
-	}
+	};
 
 
 	/*
@@ -95,7 +125,7 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 	 */
 	Map.prototype.getTileAtRowColumn = function ( x, y ){
 		return this.tileMap[x][y];
-	}
+	};
 
 	
 	/*
@@ -110,7 +140,7 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 		 		tileY = ( y - remainder ) / this.tileMap[0][0].height;
 		 
 		 return { 'x': tileX, 'y': tileY };
-	}
+	};
 	
 	return Map;
 	

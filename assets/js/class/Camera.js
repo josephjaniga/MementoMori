@@ -16,12 +16,47 @@ define( [ 'jquery' ], function( $ ){
 		this.offsetX = 0,
 		this.offsetY = 0;
 		
-	}
+	};
 	
 	Camera.prototype.update = function(target){
 		this.offsetX = target.oX;
 		this.offsetY = target.oY;
-	}
+	};
+	
+
+
+
+	/*
+	 * 
+	 * NOT WORKING
+	 */
+	
+	Camera.prototype.apply = function( element ){
+		element.oX -= this.offsetX;
+		element.oY -= this.offsetY;
+		return element;
+	};
+	
+	
+	
+	/*
+	 * 
+	 * NOT WORKING
+	 */
+	
+	Camera.prototype.onCamera = function( element ){
+		
+		if ( element.oX >= this.offsetX && element.oX <= this.offsetX + this.width ){
+			if ( element.oY >= this.offsetY && element.oY <= this.offsetY + this.height ){
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+		
+	};
 	
 	return Camera;
 	

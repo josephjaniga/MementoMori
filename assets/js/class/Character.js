@@ -56,11 +56,11 @@ define( ['jquery'], function( $ ){
 			}
 		}
 	
-	}
+	};
 
 	Character.prototype.init = function ( game ){
 		this.game = game;
-	}
+	};
 
 	Character.prototype.draw = function( context ){
 		context.fillStyle = this.color;
@@ -68,7 +68,7 @@ define( ['jquery'], function( $ ){
 		context.arc( this.oX, this.oY, this.width/2, 0, Math.PI*2, true); 
 		context.closePath();
 		context.fill();
-	}
+	};
 
 	Character.prototype.collisionCheck = function ( game ){
 		
@@ -155,7 +155,7 @@ define( ['jquery'], function( $ ){
 
 			
 		}
-	}
+	};
 
 
 

@@ -28,7 +28,7 @@ define( [ 'jquery', 'class/Canvas', 'class/Map', 'class/Player' ], function( $, 
 	
 		
 		// the user controlled player character
-		this.player = new Player(100, 100);
+		this.player = new Player(0, 0);
 		this.player.init(this);
 		
 	};
@@ -84,7 +84,7 @@ define( [ 'jquery', 'class/Canvas', 'class/Map', 'class/Player' ], function( $, 
 		this.FrameFPS = 1000 / ((this.now=new Date) - this.lastUpdate);
         this.calcFPS += (this.FrameFPS - this.calcFPS) / this.fpsFilter;
         this.lastUpdate = this.now;		
-	}
+	};
 	
 	Game.prototype.drawFPS = function(context){
 		// Draw the Frame Rate
@@ -92,7 +92,7 @@ define( [ 'jquery', 'class/Canvas', 'class/Map', 'class/Player' ], function( $, 
 		context.fillStyle = "rgb(255,255,255)";
 		context.textAlign="end"; 
 		context.fillText( "FPS: " + Math.floor(this.calcFPS), this.canvas.width - 20 , this.canvas.height - 20);
-	}
+	};
 
 	return Game;
 	
