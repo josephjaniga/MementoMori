@@ -58,17 +58,20 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 		
 		if ( !this.camera.fixed ){
 			
+			this.camera.update( game.player );
+			
 			var camRef = this.camera;
 	
 			this.tileMap.forEach( function( tileRow ){
 				tileRow.forEach( function( tile ){
+					tile.tileType('Default Grass');
 					tile.update();
 				});
 			});
 			
 		} 
 		
-		this.camera.update( game.player );
+		this.getTileAtPixels(game.player.x, game.player.y).tileType('On Camera');
 		
 	};
 
@@ -80,6 +83,7 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 	
 			this.tileMap.forEach( function( tileRow ){
 				tileRow.forEach( function( tile ){
+					//camRef.apply(tile).draw(context);
 					tile.draw(context);
 				});
 			});

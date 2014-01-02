@@ -25,22 +25,20 @@ define( [ 'jquery', 'class/Canvas', 'class/Map', 'class/Player' ], function( $, 
 		
 		// the map
 		this.map = new Map(76, 48, "The Grassy Knoll", this);
-	
 		
 		// the user controlled player character
 		this.player = new Player(this.canvas.width/2, this.canvas.height/2);
 		this.player.init(this);
-		
 	};
 
 	Game.prototype.draw = function( context ){
 		
 		// clear the canvas each draw?
-		
 		this.map.draw(context);
+
 		this.player.draw(context);
 
-		this.map.camera.draw(context);
+		//this.map.camera.draw(context);
 
         this.drawFPS(context);
 
@@ -50,12 +48,11 @@ define( [ 'jquery', 'class/Canvas', 'class/Map', 'class/Player' ], function( $, 
 		
 		this.map.update( game );
 
-		// debugger
+			// debugger
 			$('#debugga .stuff').html('');
 			$('#debugga .stuff').append($('<p>Player Orig:('+this.player.oX+', '+this.player.oY+')</p>'));
 			$('#debugga .stuff').append($('<p>Player Screen:('+this.player.x+', '+this.player.y+')</p>'));
 			$('#debugga .stuff').append($('<p>Camera:('+this.map.camera.offsetX+', '+this.map.camera.offsetY+')</p>'));
-			
 			
 		this.player.update( game );
 

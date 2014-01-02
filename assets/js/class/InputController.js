@@ -68,7 +68,7 @@ define( ['jquery'], function( $ ){
 			
 		});	
 				
-	}
+	};
 	
 	return InputController;
 

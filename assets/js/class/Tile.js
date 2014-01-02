@@ -24,6 +24,8 @@ define( ['jquery'], function( $ ){
 		
 		this.passable = passable || true;
 		
+		this.stringy = "";
+		
 	}
 
 	
@@ -36,13 +38,24 @@ define( ['jquery'], function( $ ){
 
 		this.game.map.camera.apply(this);
 		
+		var obj = this.game.map.getTileRowColumn(this.oX, this.oY);
+		this.stringy = obj['x'] + "," + obj['y'];
+		
 	};
 
 	Tile.prototype.draw = function( context ){
+		
+		// draw the tile
 		context.fillStyle = this.color;
 		context.strokeStyle = "rgb(50,50,50)";
 		context.fillRect( this.x, this.y, this.width, this.height );
 		context.strokeRect( this.x, this.y, this.width, this.height );
+		
+		// Draw the row, col
+		context.textAlign="center";
+		context.font = "8pt Arial";
+		context.fillStyle = "rgb(255,255,255)";
+		context.fillText(this.stringy, this.x+16, this.y+16);
 	};
 	
 	Tile.prototype.tileType = function( type ){
@@ -66,19 +79,6 @@ define( ['jquery'], function( $ ){
 		}
 	};
 	
-
-	/*
-	 * NOT WORKIGN WITH BROKEN CAM
-	 */
-
-	Tile.prototype.offsetThis = function( camera ){
-		
-		var offsetTile = new Tile( (this.oX - camera.offsetX), (this.oY - camera.offsetY), this.id, this.type, this.color, this.passable);
-			offsetTile.tileType(this.type);
-		return offsetTile;
-		
-	};
-
 
 	return Tile;
 	

@@ -15,26 +15,53 @@ define( [ 'jquery' ], function( $ ){
 		
 		this.offsetX = 0,
 		this.offsetY = 0;
+
+		// the original coordinate position
+		this.oX = 0;
+		this.oY = 0;
+		
 		
 	};
 	
 	Camera.prototype.update = function( target ){
 		
 		// set the camera to the position of the target
-		this.offsetX = target.x;
-		this.offsetY = target.y;
+		this.oX = target.x;
+		this.oY = target.y;
 		
+			if ( this.oX <= this.game.canvas.width/2 ) {
+				 // if the x offset is less than one half screen
+				this.offsetX = 0;
+			} else if ( this.oX >= this.game.map.width - this.game.canvas.width/2 ){ 
+				// if the offset is greater than one half screen from end of map
+				this.offsetX = this.game.map.width - this.game.canvas.width;
+			} else {
+				// otherwise calculate it
+				this.offsetX = this.oX - this.game.canvas.width/2; 
+			} 
+			
+			if ( this.oY <= this.game.canvas.height/2 ){
+				this.offsetY = 0;
+			} else if ( this.oY >= this.game.map.height - this.game.canvas.height/2 ) {
+				this.offsetY = this.game.map.height - this.game.canvas.height;
+				this.oY = this.game.map.height - this.game.canvas.height/2;
+			} else {	
+				this.offsetY = this.oY - this.game.canvas.height/2;
+			}
+			
 		// clamp camera to the bounds of the map
 		this.ClampToMap( this.game );
 	};
 	
 	Camera.prototype.draw = function( context ){
+		
 		// the camera offset point
 		context.fillStyle = 'rgb(255,0,0)';
 		context.beginPath();
-		context.arc( this.offsetX, this.offsetY, 4, 0, Math.PI*2, true); 
+		context.arc( this.oX, this.oY, 4, 0, Math.PI*2, true); 
 		context.closePath();
-		context.fill();		
+		context.fill();
+				
 	};
 	
 
@@ -51,13 +78,11 @@ define( [ 'jquery' ], function( $ ){
 	 */
 	
 	Camera.prototype.onCamera = function( element ){
-		element.tileType('Default Grass');
 		
 		// if tiles x is greater than or equal to camera center minus half canvas width
-		if ( element.x >= this.offsetX - ( this.game.canvas.width/2 )  && element.x <= this.offsetX + (this.game.canvas.width/2) ) {
+		if ( element.x >= this.offsetX - ( this.game.canvas.width/2 ) && element.x <= this.game.map.width - ( this.game.canvas.width/2 ) ) {
 		//if ( element.x + element.width > this.offsetX - (this.game.canvas.width/2) && element.x - element.width < this.offsetX + (this.game.canvas.width) ){
 			if ( element.y > this.offsetY - (this.game.canvas.height/2) && element.y < this.offsetY + (this.game.canvas.height) ){
-				//element.tileType('On Camera');
 				return true;
 			} else {
 				return false;
@@ -74,8 +99,8 @@ define( [ 'jquery' ], function( $ ){
 			screenHeight= game.canvas.height,
 			minX		= (screenWidth / 2),
 			minY		= (screenHeight / 2),
-			maxX		= game.map.width - (screenWidth/2),
-			maxY		= game.map.height - (screenHeight/2);
+			maxX		= game.map.width - (screenWidth),
+			maxY		= game.map.height - (screenHeight);
 		
 			// debugger
 			$('#debugga .clamp').html('');
@@ -84,8 +109,8 @@ define( [ 'jquery' ], function( $ ){
 			$('#debugga .clamp').append($('<p>Clamp x min/max: '+minX+' / ' + maxX+' </p>'));
 			$('#debugga .clamp').append($('<p>Clamp y min/max: '+minY+' / ' + maxY+' </p>'));
 			
-		this.offsetX = Math.max(minX, Math.min(this.offsetX, maxX));
-		this.offsetY = Math.max(minY, Math.min(this.offsetY, maxY));
+		this.oX = Math.max(minX, Math.min(this.offsetX, maxX));
+		this.oY = Math.max(minY, Math.min(this.offsetY, maxY));
 		
 	};
 	
