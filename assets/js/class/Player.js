@@ -40,6 +40,7 @@ define( ['jquery', 'class/Character', 'class/InputController'], function( $, Cha
 	}
 	*/
 
+
 	return Player;
 	
 });

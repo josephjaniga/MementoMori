@@ -52,10 +52,10 @@ define( ['jquery'], function( $ ){
 		context.strokeRect( this.x, this.y, this.width, this.height );
 		
 		// Draw the row, col
-		context.textAlign="center";
-		context.font = "8pt Arial";
-		context.fillStyle = "rgb(255,255,255)";
-		context.fillText(this.stringy, this.x+16, this.y+16);
+		// context.textAlign="center";
+		// context.font = "8pt Arial";
+		// context.fillStyle = "rgb(255,255,255)";
+		// context.fillText(this.stringy, this.x+16, this.y+16);
 	};
 	
 	Tile.prototype.tileType = function( type ){

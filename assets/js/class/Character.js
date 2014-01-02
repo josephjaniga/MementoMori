@@ -20,7 +20,7 @@ define( ['jquery'], function( $ ){
 		this.color = "rgb(0,220,255)";
 		
 		// movement
-		this.movementSpeed = 8;
+		this.movementSpeed = 15;
 		this.direction = 0; // up down left right
 		
 		// collision
@@ -62,9 +62,9 @@ define( ['jquery'], function( $ ){
 			}
 		}
 		
-		this.x = this.oX ;
-		this.y = this.oY ;
 		
+		this.x = this.oX;
+		this.y = this.oY;
 		
 	};
 
@@ -75,7 +75,7 @@ define( ['jquery'], function( $ ){
 	Character.prototype.draw = function( context ){
 		
 		context.beginPath();
-		context.arc( this.x, this.y, 0, Math.PI*2, true); 
+		context.arc( this.coordToScreen()['x'], this.coordToScreen()['y'], this.width/2, 0, Math.PI*2, true ); 
 		context.fillStyle = this.color;
 		context.closePath();
 		context.fill();
@@ -101,7 +101,7 @@ define( ['jquery'], function( $ ){
 					this.collisionUp = true;
 			}
 			if ( this.iC.sDown ) { // down check
-				if ( this.oY + this.movementSpeed > game.map.height - this.height/2)
+				if ( this.oY + this.movementSpeed > game.map.height - this.height/2 )
 					this.collisionDown = true;
 			}
 			if ( this.iC.aDown ) { // left check
@@ -172,6 +172,42 @@ define( ['jquery'], function( $ ){
 		}
 	};
 
+
+
+	Character.prototype.coordToScreen = function( game ){
+			
+		var x, y;
+			
+		// x 
+		if ( this.oX <= this.game.canvas.width/2 ) {
+			// draw player in the 'left gutter'
+			x = this.oX;
+		} else if ( this.oX >= this.game.map.width - this.game.canvas.width/2 ){ 
+			//draw player in the right gutter
+			x = this.oX - ( this.game.map.width - this.game.canvas.width );
+		} else {
+			// center player in screen
+			x = this.game.canvas.width/2;
+		} 
+		
+		//y
+		if ( this.oY <= this.game.canvas.height/2 ) {
+			// draw player in the 'top gutter'
+			y = this.oY;
+		} else if ( this.oY >= this.game.map.height - this.game.canvas.height/2 ){ 
+			//draw player in the bottom gutter
+			y = this.oY - ( this.game.map.height - this.game.canvas.height );
+		} else {
+			// center player in screen
+			y = this.game.canvas.height/2;
+		} 
+		
+		return {
+			'x': x,
+			'y': y
+		};
+		
+	};
 
 
 
