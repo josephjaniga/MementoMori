@@ -29,6 +29,7 @@ define( [ 'jquery', 'class/Canvas', 'class/Map', 'class/Player' ], function( $, 
 		// the user controlled player character
 		this.player = new Player(this.canvas.width/2, this.canvas.height/2);
 		this.player.init(this);
+		this.map.getTileAtPixels(this.player.x, this.player.y).tileType('Default Grass');
 	};
 
 	Game.prototype.draw = function( context ){

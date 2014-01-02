@@ -37,7 +37,7 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 				tempTile.init(this.game);
 				
 				if ( (Math.floor(Math.random() * 4) + 1) === 1 ) {
-					//tempTile.tileType("Default Water");
+					tempTile.tileType("Default Water");
 				}
 					
 				// push tile into row
@@ -64,14 +64,14 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 	
 			this.tileMap.forEach( function( tileRow ){
 				tileRow.forEach( function( tile ){
-					tile.tileType('Default Grass');
+					//tile.tileType('Default Grass');
 					tile.update();
 				});
 			});
 			
 		} 
 		
-		this.getTileAtPixels(game.player.x, game.player.y).tileType('On Camera');
+		//this.getTileAtPixels(game.player.x, game.player.y).tileType('On Camera');
 		
 	};
 
