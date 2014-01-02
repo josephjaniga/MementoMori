@@ -27,8 +27,15 @@ define( ['jquery'], function( $ ){
 	}
 
 	
-	Tile.prototype.update = function( game ){
+	Tile.prototype.init = function ( game ){
 		this.game = game;
+	};
+	
+	
+	Tile.prototype.update = function( ){
+
+		this.game.map.camera.apply(this);
+		
 	};
 
 	Tile.prototype.draw = function( context ){
@@ -51,6 +58,10 @@ define( ['jquery'], function( $ ){
 		} else if ( type === "Default Grass") {
 			this.type = "Default Grass";
 			this.color = "rgb(0,130,0)";
+			this.passable = true;
+		} else if ( type === "On Camera") {
+			this.type = "Default Grass";
+			this.color = "rgb(200,150,0)";
 			this.passable = true;
 		}
 	};

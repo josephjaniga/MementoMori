@@ -20,7 +20,7 @@ define( ['jquery'], function( $ ){
 		this.color = "rgb(0,220,255)";
 		
 		// movement
-		this.movementSpeed = 3;
+		this.movementSpeed = 13;
 		this.direction = 0; // up down left right
 		
 		// collision
@@ -87,19 +87,19 @@ define( ['jquery'], function( $ ){
 			
 			// BORDER COLLISION CHECK - for each direction
 			if ( this.iC.wDown ) { // up check
-				if ( this.oY - this.height/2 - this.movementSpeed < 0 )
+				if ( this.y - this.height/2 - this.movementSpeed < 0 )
 					this.collisionUp = true;
 			}
 			if ( this.iC.sDown ) { // down check
-				if ( this.oY + this.movementSpeed > game.map.height - this.height/2)
+				if ( this.y + this.movementSpeed > game.map.height - this.height/2)
 					this.collisionDown = true;
 			}
 			if ( this.iC.aDown ) { // left check
-				if ( this.oX - this.width/2 - this.movementSpeed < 0 )
+				if ( this.x - this.width/2 - this.movementSpeed < 0 )
 					this.collisionLeft = true;
 			}
 			if ( this.iC.dDown ) { // right check
-				if ( this.oX + this.movementSpeed > game.map.width - this.width/2 )
+				if ( this.x + this.movementSpeed > game.map.width - this.width/2 )
 					this.collisionRight = true;
 			}
 
@@ -107,7 +107,7 @@ define( ['jquery'], function( $ ){
 			// CELL COLLISION CHECKS
 			
 			// get the characters tile position
-			var CharacterTile = game.map.getTileRowColumn(this.oX, this.oY),
+			var CharacterTile = game.map.getTileRowColumn(this.x, this.y),
 				pX = CharacterTile['x'],
 				pY = CharacterTile['y'],
 				cellUp = null,
@@ -138,22 +138,22 @@ define( ['jquery'], function( $ ){
 			
 			// Cell Collision Checkd
 			if ( this.iC.wDown && testUp ) { // up check
-				if ( !tileUp.passable && ( this.oY - this.movementSpeed - this.height/2 ) <= tileUp.oY + tileUp.height )
+				if ( !tileUp.passable && ( this.y - this.movementSpeed - this.height/2 ) <= tileUp.y + tileUp.height )
 					this.collisionUp = true;
 			}
 
 			if ( this.iC.sDown && testDown ) { // DOWN check - against tiles top face
-				if ( !tileDown.passable && ( this.oY + this.movementSpeed + this.height/2 ) >= tileDown.oY )
+				if ( !tileDown.passable && ( this.y + this.movementSpeed + this.height/2 ) >= tileDown.y )
 					this.collisionDown = true;
 			}
 		
 			if ( this.iC.aDown && testLeft ) { // left check - against cells right face
-				if ( !tileLeft.passable && ( this.oX - this.movementSpeed - this.width/2 ) <= tileLeft.oX + tileLeft.width )
+				if ( !tileLeft.passable && ( this.x - this.movementSpeed - this.width/2 ) <= tileLeft.x + tileLeft.width )
 					this.collisionLeft = true;
 			}
 
 			if ( this.iC.dDown && testRight ) { // right check - against cells left face
-				if ( !tileRight.passable && (this.oX + this.movementSpeed + this.width/2) >= tileRight.oX  )
+				if ( !tileRight.passable && (this.x + this.movementSpeed + this.width/2) >= tileRight.x  )
 					this.collisionRight = true;
 			}
 

@@ -34,8 +34,10 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 			for ( y = 0; y < this.tilesTall; y++ ){
 				var tempTile = new Tile( (x * t.width), (y * t.height), z );
 				
+				tempTile.init(this.game);
+				
 				if ( (Math.floor(Math.random() * 4) + 1) === 1 ) {
-					tempTile.tileType("Default Water");
+					//tempTile.tileType("Default Water");
 				}
 					
 				// push tile into row
@@ -54,7 +56,17 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 
 	Map.prototype.update = function( game ){
 		
-		var camRef = this.camera;
+		if ( !this.camera.fixed ){
+			
+			var camRef = this.camera;
+	
+			this.tileMap.forEach( function( tileRow ){
+				tileRow.forEach( function( tile ){
+					tile.update();
+				});
+			});
+			
+		} 
 		
 		this.camera.update( game.player );
 		
@@ -68,9 +80,7 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 	
 			this.tileMap.forEach( function( tileRow ){
 				tileRow.forEach( function( tile ){
-					if ( camRef.onCamera(tile) ){
-						camRef.apply(tile).draw(context);
-					}
+					tile.draw(context);
 				});
 			});
 			

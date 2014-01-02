@@ -40,6 +40,8 @@ define( [ 'jquery', 'class/Canvas', 'class/Map', 'class/Player' ], function( $, 
 		this.map.draw(context);
 		this.player.draw(context);
 
+		this.map.camera.draw(context);
+
         this.drawFPS(context);
 
 	};
@@ -78,12 +80,6 @@ define( [ 'jquery', 'class/Canvas', 'class/Map', 'class/Player' ], function( $, 
 		
 		console.log("game init-ed");
 		this.running = true;
-		
-		this.map.getTileAtPixels(183,0).tileType("Default Water");
-		this.map.getTileAtRowColumn(3,6).tileType("Default Water");
-		
-		var tileCoords = this.map.getTileRowColumn(666,323);
-		this.map.tileMap[tileCoords['x']][tileCoords['y']].tileType("Default Water");
 		
 	};
 
