@@ -1,0 +1,73 @@
+<!doctype html>
+<html ng-app="TileEditor">
+<head>
+	<meta charset="UTF-8" />
+	<title>MM - TileMap Editor</title>
+	
+    <!-- jQuery -->
+    <script src="../assets/js/lib/jquery-1.10.2.min.js"></script>
+	
+	<!-- AngularJS -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+
+	<!-- Bootstrap -->	
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+	
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+	
+	<script src="Tile.Editor.js"></script>
+	
+	<style type="text/css" media="screen">
+		* {
+			margin:0px;
+		}
+		.tile:hover{
+			cursor:pointer;
+		}
+	</style>
+	
+</head>
+<body >
+	<div class="container" ng-controller='TileEditorCtrl'>
+		<div class="row">
+			<div class="col-md-8">
+				<h1>TileMap Editor</h1>
+				
+				<form ng-submit="resizeMap()">
+			        <input type="number" ng-model="resizeWidth" value="{{mapWidth}}" size="10" placeholder="{{mapWidth}}" require/> x 
+			        <input type="number" ng-model="resizeHeight" value="{{mapHeight}}" size="10" placeholder="{{mapHeight}}" require/>
+			        <input class="btn-primary" type="submit" value="resize the map" >
+			 	</form>
+			 	
+			 	<br/>
+			 	
+			 	<div ng-repeat="mapRow in tileMap track by $index" on-finish-render style="height:16px; display:block;">
+			 		<div ng-repeat="tile in mapRow.row track by $index" style="display:inline-block;">
+			 			<div class="tile" ng-right-click="setRight(tile)" ng-click="setLeft(tile)" style=" border: 1px solid black; width:16px; height:16px; background:{{tile.gfx}}; display: inline-block;"><!--{{tile.pos.x}},{{tile.pos.y}}--></div>
+			 		</div>
+			 	</div>
+			 	
+				
+			</div>
+			<div class="col-md-4">
+				<h2>TileSet</h2>
+				
+				<div ng-repeat="tile in tileSet">
+					<div class="tile" ng-click="assignLeft(tile)" ng-right-click="assignRight(tile)" style="width:32px; height:32px; background:{{tile.gfx}}; display:inline-block;"></div> <i class="fa fa-times-circle"></i>
+				</div>
+				
+				<br />
+				
+				<h5>Left Click / Right Click</h5>
+				<div style="width:70px; height:70px; background:{{selectedLeft['gfx']}}; display:inline-block;" ng-model="selectedLeft"></div>
+				<div style="width:70px; height:70px; background:{{selectedRight['gfx']}}; display:inline-block;" ng-model="selectedRight"></div>
+		
+			</div>		
+		</div>
+	</div>
+</body>
+</html>
