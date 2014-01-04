@@ -20,7 +20,7 @@ define( ['jquery'], function( $ ){
 		this.color = "rgb(0,220,255)";
 		
 		// movement
-		this.movementSpeed = 3;
+		this.movementSpeed = 6;
 		this.direction = 0; // up down left right
 		
 		// collision
