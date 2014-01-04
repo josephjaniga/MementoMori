@@ -59,24 +59,20 @@ define( ['jquery'], function( $ ){
 	};
 	
 	Tile.prototype.tileType = function( type ){
+
+		var theGuy = 0
 		
-		/*
-		 * Re-Address this
-		 */
-		
-		if ( type === "Default Water" ) {
-			this.type = type;
-			this.color = "rgb(99, 200, 255)";
-			this.passable = false;
-		} else if ( type === "Default Grass") {
-			this.type = "Default Grass";
-			this.color = "rgb(0,130,0)";
-			this.passable = true;
-		} else if ( type === "On Camera") {
-			this.type = "Default Grass";
-			this.color = "rgb(200,150,0)";
-			this.passable = true;
+		for ( var x = 0; x < this.game.map.tileSet.length; x++ ){
+			console.log( this.game.map.tileSet[x]['id'] + ', ' + type );
+			if ( this.game.map.tileSet[x]['id'] === type ){
+				theGuy = x;
+			}
 		}
+		
+		this.type = this.game.map.tileSet[theGuy]['name'];
+		this.color = this.game.map.tileSet[theGuy]['gfx'];
+		this.passable = this.game.map.tileSet[theGuy]['passable'];
+		
 	};
 	
 

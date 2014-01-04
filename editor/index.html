@@ -89,14 +89,14 @@
 				
 				<input type="range" value="{{brushSize}}" ng-model="brushSize" min="0" max="7" ng-onchange="setBrushSize(this.value);"/> <br/>
 				
-				<div id="brush" style="background:black; border-radius:999px; display:inline-block; width:{{brushSize | timesTen}}; height:{{brushSize | timesTen}};"></div>
+				<div id="brush" style="background:black; margin:0 auto !important; border-radius:999px; display:block; width:{{brushSize | timesTen}}; height:{{brushSize | timesTen}};"></div>
 				
 		
 			</div>
 
 
 			<div class="col-md-10">
-				<h1>TileMap Editor</h1>
+				<h1>TileMap Editor <input type="text" ng-model="mapName" value="{{mapName}}"/></h1>
 				
 				<form ng-submit="resizeMap()">
 			        <input type="number" ng-model="resizeWidth" value="{{mapWidth}}" size="10" placeholder="{{mapWidth}}" require/> x 
@@ -106,23 +106,19 @@
 			 	
 			 	<br/>
 			 	
-			 	<div ng-repeat="mapRow in tileMap track by $index" on-finish-render style="height:16px; display:block;">
+			 	<div ng-repeat="mapRow in tileMap track by $index" on-finish-render style="height:10px; display:block;">
 			 		<div ng-repeat="tile in mapRow.row track by $index" style="display:inline-block;">
-			 			<div class="tile" ng-mouseover="paintLeft(tile)" ng-right-click="setRight(tile)" ng-click="setLeft(tile)" style=" border: 1px solid black; width:16px; height:16px; background:{{tile.gfx}}; display: inline-block;"><!--{{tile.pos.x}},{{tile.pos.y}}--></div>
+			 			<div class="tile" ng-mouseover="paintLeft(tile)" ng-right-click="setRight(tile)" ng-click="setLeft(tile)" style=" border: 1px solid black; width:10px; height:16px; background:{{tile.gfx}}; display: inline-block;"><!--{{tile.pos.x}},{{tile.pos.y}}--></div>
 			 		</div>
 			 	</div>
 			 	
 			 	<br/><br/>
 			 	
-			 	<p class="lead">TileSet Key</p>
-<pre style="font-size:12px;">
-[<div class="tileSet" ng-repeat="tile in tileSet">	{ name: {{tile.name}}, id: {{tile.id}}, gfx: "{{tile.gfx}}", passable: {{tile.passable}} }{{$last | commaNotLast}}</div>]</pre>
-				
-				<br/>
-				<p class="lead">TileMap - Multi-Dimmensional Array</p>
-			 	<pre style="font-size:12px;">
-[<div ng-repeat="mapRow in tileMap track by $index">	[<span ng-repeat="tile in mapRow.row track by $index">{{tile.id}}{{$last | commaNotLast}}</span>]{{$last | commaNotLast}}</div>]
-				</pre>
+			 	<p class="lead">TileSet Key & TileMap Array</p>
+<pre style="font-size:11px;">{
+	tileSet: [<div class="tileSet" ng-repeat="tile in tileSet">		{ name: "{{tile.name}}", id: {{tile.id}}, gfx: "{{tile.gfx}}", passable: {{tile.passable}} }{{$last | commaNotLast}}</div>	],
+	tileMap: [<div ng-repeat="mapRow in tileMap track by $index">		[<span ng-repeat="tile in mapRow.row track by $index">{{tile.id}}{{$last | commaNotLast}}</span>]{{$last | commaNotLast}}</div>	]
+}</pre>
 				
 			</div>
 		

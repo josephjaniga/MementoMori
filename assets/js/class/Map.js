@@ -14,40 +14,91 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 		
 		this.tileMap = [];
 		
-		var t = new Tile(),
-			z = 1;
+		this.tileSet = [
+			{ name: "Default Grass", id: 0, gfx: "rgb(0,150,0)", passable: true },
+			{ name: "Default Water", id: 1, gfx: "rgb(99,200,255)", passable: false },
+			{ name: "On Camera", id: 2, gfx: "rgb(200,150,0)", passable: true }
+		];
+		
+		this.t = new Tile();
 		
 		// the size of the map in pixels 
-		this.height = this.tilesTall * t.height;
-		this.width = this.tilesWide * t.width;
+		this.height = this.tilesTall * this.t.height;
+		this.width = this.tilesWide * this.t.width;
 
 		// the camera
 		this.camera = new Camera( function(){}, this.game.canvas.width, this.game.canvas.height, this.game );
 
+	};
+	
+	Map.prototype.init = function ( mapObj ){
 		
-		// the tileMap init
-		for ( x = 0; x < this.tilesWide; x++ ){
+		var z = 1;
+		
+		if ( mapObj ){
 			
-			// make a Row array of tiles
-			var tileRow = [];
+			// assign the object to the map
+			this.tileSet = mapObj['tileSet'];
+			//console.log(this.tileSet);
 			
-			for ( y = 0; y < this.tilesTall; y++ ){
-				var tempTile = new Tile( (x * t.width), (y * t.height), z );
+			// get the map size
+			this.tilesWide = mapObj['tileMap'][0].length,
+			this.tilesTall = mapObj['tileMap'].length;
+			
+			this.height = this.tilesTall * this.t.height;
+			this.width = this.tilesWide * this.t.width;
+			
+			for ( x = 0; x < this.tilesWide; x++ ){
 				
-				tempTile.init(this.game);
+				// make a Row array of tiles
+				var tileRow = [];
 				
-				if ( (Math.floor(Math.random() * 4) + 1) === 1 ) {
-					tempTile.tileType("Default Water");
-				}
+				for ( y = 0; y < this.tilesTall; y++ ){
 					
-				// push tile into row
-				tileRow.push( tempTile );
+					var tempTile = new Tile( (x * this.t.width), (y * this.t.height), z );
+					
+					tempTile.init(this.game);
+					
+					tempTile.tileType( mapObj['tileMap'][y][x] );
+					
+					// push tile into row
+					tileRow.push( tempTile );
+					
+					z++;
 				
-				z++;
+					// push the row when done
+					if ( y === this.tilesTall - 1 ){
+						this.tileMap.push( tileRow );
+					}
+				}
+			}				
 			
-				// push the row when done
-				if ( y === this.tilesTall - 1 ){
-					this.tileMap.push( tileRow );
+		} else {
+			
+			// randomly generate some crap
+			for ( x = 0; x < this.tilesWide; x++ ){
+				
+				// make a Row array of tiles
+				var tileRow = [];
+				
+				for ( y = 0; y < this.tilesTall; y++ ){
+					var tempTile = new Tile( (x * t.width), (y * t.height), z );
+					
+					tempTile.init(this.game);
+					
+					if ( (Math.floor(Math.random() * 4) + 1) === 1 ) {
+						tempTile.tileType("Default Water");
+					}
+						
+					// push tile into row
+					tileRow.push( tempTile );
+					
+					z++;
+				
+					// push the row when done
+					if ( y === this.tilesTall - 1 ){
+						this.tileMap.push( tileRow );
+					}
 				}
 			}
 		}

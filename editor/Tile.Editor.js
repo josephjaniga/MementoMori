@@ -9,10 +9,12 @@ function TileEditorCtrl($scope){
 		{ name: 'On Camera', id: 2, gfx: 'rgb(200,150,0)' , passable: true, pos: { x: 0, y: 0 }, hash: randomHash() }
 	];
 	
+	$scope.mapName = "Default Map Name"
+	
 	$scope.brushSize = 0;
 	$scope.tileMap = [];
-	$scope.mapWidth = 22;
-	$scope.mapHeight = 12;
+	$scope.mapWidth = 38;
+	$scope.mapHeight = 24;
 	
 	for (var y = 0; y < $scope.mapHeight; y++ ){
 		var mapRow = { row: [], hash: randomHash()  };
