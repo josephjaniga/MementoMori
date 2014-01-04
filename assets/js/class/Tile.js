@@ -6,6 +6,8 @@ define( ['jquery'], function( $ ){
 		
 		this.game = null;
 		
+		this.map = null;
+		
 		// the original coords
 		this.oX = x || 0;
 		this.oY = y || 0;
@@ -29,8 +31,9 @@ define( ['jquery'], function( $ ){
 	}
 
 	
-	Tile.prototype.init = function ( game ){
+	Tile.prototype.init = function ( game, map ){
 		this.game = game;
+		this.map = map;
 	};
 	
 	
@@ -60,18 +63,18 @@ define( ['jquery'], function( $ ){
 	
 	Tile.prototype.tileType = function( type ){
 
-		var theGuy = 0
+		var theGuy = 0;
 		
-		for ( var x = 0; x < this.game.map.tileSet.length; x++ ){
-			console.log( this.game.map.tileSet[x]['id'] + ', ' + type );
-			if ( this.game.map.tileSet[x]['id'] === type ){
+		for ( var x = 0; x <= this.map.tileSet.length-1; x++ ){
+			if ( this.map.tileSet[x]['id'] === type ){
+				//console.log( this.map.tileSet[x]['id'] + ', ' + type );
 				theGuy = x;
 			}
 		}
 		
-		this.type = this.game.map.tileSet[theGuy]['name'];
-		this.color = this.game.map.tileSet[theGuy]['gfx'];
-		this.passable = this.game.map.tileSet[theGuy]['passable'];
+		this.type = this.map.tileSet[theGuy]['name'];
+		this.color = this.map.tileSet[theGuy]['gfx'];
+		this.passable = this.map.tileSet[theGuy]['passable'];
 		
 	};
 	

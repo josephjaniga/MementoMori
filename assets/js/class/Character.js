@@ -36,8 +36,7 @@ define( ['jquery'], function( $ ){
 
 	Character.prototype.update = function( game ){
 	
-	
-		this.collisionCheck(game);	
+		this.collisionCheck( game );	
 	
 		if ( this.collisionEnabled ){
 			if ( this.iC.sDown ) { // down check
@@ -62,9 +61,10 @@ define( ['jquery'], function( $ ){
 			}
 		}
 		
-		
 		this.x = this.oX;
 		this.y = this.oY;
+		
+		this.isInDoor( game );
 		
 	};
 
@@ -210,6 +210,66 @@ define( ['jquery'], function( $ ){
 	};
 
 
+	Character.prototype.moveTo = function (x, y){
+		this.oX = x;
+		this.oY = y;
+	};
+
+var bugger = false;
+
+	Character.prototype.isInDoor = function( game ){
+		var characterPosition = this.getTileCoordinates(),
+			gameRef = game,
+			charRef = this;
+			
+		
+		// for each door
+		game.doorList.forEach(function(door){
+			
+			// check each entry A for player collision
+			for ( var x = 0; x < door['entryA'].length; x++ ){
+				// if character is on same map
+				if ( gameRef.map === door.mapA ){
+					// if character is in entry
+					if ( characterPosition['x'] == door['entryA'][x]['x'] ){
+						if ( characterPosition['y'] == door['entryA'][x]['y']){
+							//load the new map
+							gameRef.loadMap( door['indexB'] );
+							// move player to exit position on new map
+							charRef.moveTo( door['exitB']['x']*gameRef.map.t.width, door['exitB']['y']*gameRef.map.t.height );
+						}
+					}
+				}	
+			}
+			
+			// check each entry for player collision
+			for ( var x = 0; x < door['entryB'].length; x++ ){
+				// if character is on same map
+				if ( gameRef.map === door.mapB ){
+					// if character is in entry
+					if ( characterPosition['x'] == door['entryB'][x]['x'] ){
+						if ( characterPosition['y'] == door['entryB'][x]['y']){
+							//load the new map
+							gameRef.loadMap( door['indexA'] );
+							// move player to exit position on new map
+							charRef.moveTo( door['exitA']['x']*gameRef.map.t.width, door['exitA']['y']*gameRef.map.t.height );
+						}
+					}
+				}
+			}
+			
+		});
+		
+	};
+
+	Character.prototype.getTileCoordinates = function( ){
+		 var 	remainder = this.oX % this.game.map.t.width,
+		 		tileX = ( this.oX - remainder ) / this.game.map.t.width,
+		 		remainder = this.oY % this.game.map.t.height,
+		 		tileY = ( this.oY - remainder ) / this.game.map.t.height;
+		 
+		 return { x: tileX, y: tileY };		
+	};
 
 	return Character;
 	

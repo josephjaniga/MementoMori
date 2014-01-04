@@ -140,7 +140,12 @@ function TileEditorCtrl($scope){
 		$scope.tileSet.splice(index, 1);
 	};	
 	
-}
+	$scope.updaateName = function( newName ){
+		$scope.mapName = newName;
+	};
+	
+	
+} /*---- end of TileEditorCtrl -----*/
 
 app.directive('ngRightClick', function($parse) {
     return function(scope, element, attrs) {

@@ -1,6 +1,6 @@
 console.log('class/Map.js loaded...');
 
-define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $, Tile, TileSet, Camera ){
+define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera', 'class/Door'], function( $, Tile, TileSet, Camera, Door ){
 	
 	function Map ( tilesWide, tilesTall, name, game ) {
 		
@@ -21,6 +21,7 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 		];
 		
 		this.t = new Tile();
+		this.t.init(this.game, this);
 		
 		// the size of the map in pixels 
 		this.height = this.tilesTall * this.t.height;
@@ -39,7 +40,6 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 			
 			// assign the object to the map
 			this.tileSet = mapObj['tileSet'];
-			//console.log(this.tileSet);
 			
 			// get the map size
 			this.tilesWide = mapObj['tileMap'][0].length,
@@ -47,6 +47,11 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 			
 			this.height = this.tilesTall * this.t.height;
 			this.width = this.tilesWide * this.t.width;
+			
+			this.name = mapObj['mapName'];
+			
+			this.t = new Tile();
+			this.t.init(this.game, this);
 			
 			for ( x = 0; x < this.tilesWide; x++ ){
 				
@@ -56,8 +61,7 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 				for ( y = 0; y < this.tilesTall; y++ ){
 					
 					var tempTile = new Tile( (x * this.t.width), (y * this.t.height), z );
-					
-					tempTile.init(this.game);
+					tempTile.init(this.game, this);
 					
 					tempTile.tileType( mapObj['tileMap'][y][x] );
 					
@@ -82,9 +86,10 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 				var tileRow = [];
 				
 				for ( y = 0; y < this.tilesTall; y++ ){
+					
 					var tempTile = new Tile( (x * t.width), (y * t.height), z );
 					
-					tempTile.init(this.game);
+					tempTile.init(this.game, this);
 					
 					if ( (Math.floor(Math.random() * 4) + 1) === 1 ) {
 						tempTile.tileType("Default Water");
@@ -109,20 +114,22 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 		
 		if ( !this.camera.fixed ){
 			
+			//console.log(this.name);
+			
 			this.camera.update( game.player );
 			
 			var camRef = this.camera;
 	
 			this.tileMap.forEach( function( tileRow ){
 				tileRow.forEach( function( tile ){
-					//tile.tileType('Default Grass');
 					tile.update();
 				});
 			});
 			
 		} 
 		
-		//this.getTileAtPixels(game.player.x, game.player.y).tileType('On Camera');
+		
+		
 		
 	};
 
@@ -134,7 +141,6 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 	
 			this.tileMap.forEach( function( tileRow ){
 				tileRow.forEach( function( tile ){
-					//camRef.apply(tile).draw(context);
 					tile.draw(context);
 				});
 			});
@@ -154,9 +160,10 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 		 */
 		
 		// Draw the Map Name
-		// context.font = "10pt Arial";
-		// context.fillStyle = "rgb(255,255,255)";
-		// context.fillText(this.name, 10, 20);
+		context.textAlign="start"; 
+		context.font = "14pt Open Sans";
+		context.fillStyle = "rgb(255,255,255)";
+		context.fillText( ""+this.name+"" , 10, 28);
 		
 	};
 	
@@ -181,6 +188,18 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera'], function( $,
 	 */
 	Map.prototype.getTileAtRowColumn = function ( x, y ){
 		return this.tileMap[x][y];
+	};
+
+
+	/*
+	 */
+	Map.prototype.getTileCoordinates = function( tile ){
+		 var 	remainder = tile.x % tile.width,
+		 		tileX = ( tile.x - remainder ) / tile.width,
+		 		remainder = tile.y % tile.height,
+		 		tileY = ( tile.y - remainder ) / tile.height;
+		 
+		 return { 'x': tileX, 'y': tileY };		
 	};
 
 	
