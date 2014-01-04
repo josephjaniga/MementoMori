@@ -236,7 +236,7 @@ var bugger = false;
 							//load the new map
 							gameRef.loadMap( door['indexB'] );
 							// move player to exit position on new map
-							charRef.moveTo( door['exitB']['x']*gameRef.map.t.width, door['exitB']['y']*gameRef.map.t.height );
+							charRef.moveTo( door['exitB']['x']*gameRef.map.t.width+gameRef.map.t.width/2, door['exitB']['y']*gameRef.map.t.height+gameRef.map.t.height/2 );
 						}
 					}
 				}	
@@ -252,7 +252,7 @@ var bugger = false;
 							//load the new map
 							gameRef.loadMap( door['indexA'] );
 							// move player to exit position on new map
-							charRef.moveTo( door['exitA']['x']*gameRef.map.t.width, door['exitA']['y']*gameRef.map.t.height );
+							charRef.moveTo( door['exitA']['x']*gameRef.map.t.width+gameRef.map.t.width/2, door['exitA']['y']*gameRef.map.t.height+gameRef.map.t.height/2 );
 						}
 					}
 				}
