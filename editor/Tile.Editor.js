@@ -3,28 +3,31 @@ var app = angular.module('TileEditor', []);
 function TileEditorCtrl($scope){
 	
 	$scope.tileSet = [
-		{ name: "Blank", id: '_', gfx:'rgb(133, 133, 133)', passable: null, pos: { x: 0, y: 0 }, hash: randomHash() },
+		{ name: "Blank", id: '_', gfx:'rgb(133,133,133)', passable: true, pos: { x: 0, y: 0 }, hash: randomHash() },
 		{ name: 'Default Grass', id: 0, gfx: 'rgb(0,150,0)', passable: true, pos: { x: 0, y: 0 }, hash: randomHash() },
-		{ name: 'Default Water', id: 1, gfx: 'rgb(99, 200, 255)', passable: false, pos: { x: 0, y: 0 }, hash: randomHash() },
+		{ name: 'Default Water', id: 1, gfx: 'rgb(99,200,255)', passable: false, pos: { x: 0, y: 0 }, hash: randomHash() },
 		{ name: 'On Camera', id: 2, gfx: 'rgb(200,150,0)' , passable: true, pos: { x: 0, y: 0 }, hash: randomHash() }
 	];
 	
+	$scope.brushSize = 0;
 	$scope.tileMap = [];
-	
 	$scope.mapWidth = 22;
 	$scope.mapHeight = 12;
 	
 	for (var y = 0; y < $scope.mapHeight; y++ ){
 		var mapRow = { row: [], hash: randomHash()  };
 		for(var x = 0; x < $scope.mapWidth; x++ ){
-			mapRow['row'].push( { name: "Blank", id: '_', gfx:'rgb(133, 133, 133)', passable: null, pos: { x: x, y: y }, hash: randomHash() } );
+			mapRow['row'].push( { name: "Blank", id: '_', gfx:'rgb(133,133,133)', passable: true, pos: { x: x, y: y }, hash: randomHash() } );
 		}
 		$scope.tileMap.push(mapRow);
 	}
 	
-	$scope.selectedLeft = { name: "Blank", id: '_', gfx:'rgb(133, 133, 133)', passable: null, pos: { x: 0, y: 0 }, hash: randomHash() };
-	$scope.selectedRight = { name: "Blank", id: '_', gfx:'rgb(133, 133, 133)', passable: null, pos: { x: 0, y: 0 }, hash: randomHash() };
+	$scope.selectedLeft = { name: "Blank", id: '_', gfx:'rgb(133,133,133)', passable: true, pos: { x: 0, y: 0 }, hash: randomHash() };
+	$scope.selectedRight = { name: "Blank", id: '_', gfx:'rgb(133,133,133)', passable: true, pos: { x: 0, y: 0 }, hash: randomHash() };
 	
+	$scope.setBrushSize = function(input){
+		$scope.brushSize = input;
+	};
 
 	$scope.addToTileSet = function() {
 		
@@ -53,7 +56,7 @@ function TileEditorCtrl($scope){
 		for (var y = 0; y < $scope.mapHeight; y++ ){
 			var mapRow = { row: [], hash: randomHash()  };
 			for(var x = 0; x < $scope.mapWidth; x++ ){
-				mapRow['row'].push( { name: "Blank", id: '_', gfx:'rgb(133, 133, 133)', passable: null, pos: { x: x, y: y }, hash: randomHash() } );
+				mapRow['row'].push( { name: "Blank", id: '_', gfx:'rgb(133,133,133)', passable: true, pos: { x: x, y: y }, hash: randomHash() } );
 			}
 			$scope.tileMap.push(mapRow);
 		}
@@ -75,7 +78,7 @@ function TileEditorCtrl($scope){
 		for (var y = 0; y < $scope.mapHeight; y++ ){
 			for(var x = 0; x < $scope.mapWidth; x++ ){
 				if ( $scope.tileMap[y]['row'][x] === null )
-					$scope.tileMap[y]['row'][x] = { name: "Blank", id: '_', gfx:'rgb(133, 133, 133)', passable: null, pos: { x: x, y: y }, hash: randomHash() };
+					$scope.tileMap[y]['row'][x] = { name: "Blank", id: '_', gfx:'rgb(133,133,133)', passable: true, pos: { x: x, y: y }, hash: randomHash() };
 			}
 		}
 	});
@@ -90,9 +93,39 @@ function TileEditorCtrl($scope){
 	
 	
 	$scope.setLeft = function(tile){
-		//console.log(tile);
-		var tempTile = {name: $scope.selectedLeft['name'], id: $scope.selectedLeft['id'], gfx: $scope.selectedLeft['gfx'], passable: true, pos: tile['pos'], hash: randomHash() };
-		$scope.tileMap[ tile['pos']['y'] ]['row'][ tile['pos']['x'] ] = tempTile;
+		console.log(tile);
+
+		if ( $scope.brushSize === "0" ) {
+			
+			//console.log("brush size 0");
+			
+			var tempTile = {name: $scope.selectedLeft['name'], id: $scope.selectedLeft['id'], gfx: $scope.selectedLeft['gfx'], passable: true, pos: {x: tile['pos']['x'], y: tile['pos']['y'] }, hash: randomHash() };
+			$scope.tileMap[ tile['pos']['y'] ]['row'][ tile['pos']['x'] ] = tempTile;
+			
+		} else {
+			
+			//console.log('brush not 1');
+			
+			var minX = ( parseInt(tile['pos']['x']) - parseInt($scope.brushSize) >= 0 ) ? ( parseInt(tile['pos']['x']) - parseInt($scope.brushSize) ) : 0,
+				minY = ( parseInt(tile['pos']['y']) - parseInt($scope.brushSize) >= 0 ) ? ( parseInt(tile['pos']['y']) - parseInt($scope.brushSize) ) : 0,
+				maxX = ( parseInt(tile['pos']['x']) + parseInt($scope.brushSize) < $scope.mapWidth ) ? ( parseInt(tile['pos']['x']) + parseInt($scope.brushSize) ) : $scope.mapWidth -1 ,
+				maxY = ( parseInt(tile['pos']['y']) + parseInt($scope.brushSize) < $scope.mapHeight ) ? ( parseInt(tile['pos']['y']) + parseInt($scope.brushSize) ) : $scope.mapHeight - 1;
+			
+			//console.log( 'x: ' + minX+'/'+maxX+ ', y: ' +minY+'/'+maxY  + ' brush:' + $scope.brushSize + ' mapWidth:' + $scope.mapWidth + ' mapHeight:' + $scope.mapHeight);
+			
+			for (var y = minY; y <= maxY; y++ ){
+				for(var x = minX; x <= maxX; x++ ){
+					console.log(x +', '+ y);
+					var tempTile = {name: $scope.selectedLeft['name'], id: $scope.selectedLeft['id'], gfx: $scope.selectedLeft['gfx'], passable: true, pos: {x: x, y: y}, hash: randomHash() };
+					$scope.tileMap[ y ]['row'][ x ] = tempTile;		
+				}
+			}				
+			
+		}
+		
+	
+		
+		
 	};
 		
 	$scope.setRight = function(tile){
@@ -100,6 +133,10 @@ function TileEditorCtrl($scope){
 		var tempTile = {name: $scope.selectedRight['name'], id: $scope.selectedRight['id'], gfx: $scope.selectedRight['gfx'], passable: true, pos: tile['pos'], hash: randomHash() };
 		$scope.tileMap[ tile['pos']['y'] ]['row'][ tile['pos']['x'] ] = tempTile;
 	};
+	
+	$scope.removeTile = function(index){
+		$scope.tileSet.splice(index, 1);
+	};	
 	
 }
 
@@ -131,6 +168,12 @@ app.directive('onFinishRender', function ($timeout) {
 app.filter('commaNotLast', function(){
 	return	function(input){
 				return input == 1 ? '' : ',';
+			};
+});
+
+app.filter('timesTen', function(){
+	return	function(input){
+				return input * 10 + 10 +"px";
 			};
 });
 

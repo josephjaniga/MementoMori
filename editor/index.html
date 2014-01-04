@@ -65,25 +65,32 @@
 				
 				<div class="tileSet" ng-repeat="tile in tileSet" style="display:inline-block; width:100%;">
 					<div style="width:100%; display:block;">
-						<div class="tile" ng-click="assignLeft(tile)" ng-right-click="assignRight(tile)" style="margin-right:5px; width:32px; height:32px; background:{{tile.gfx}}; display:inline-block; float:left;"><i class="fa fa-times-circle"></i></div>
+						<div class="tile" ng-click="assignLeft(tile)" ng-right-click="assignRight(tile)" style="margin-right:5px; width:32px; height:32px; background:{{tile.gfx}}; display:inline-block; float:left;"><i class="fa fa-times-circle" ng-click="removeTile($index)"></i></div>
 						<span class="lead" style=" float:left; display:block;">{{tile.name}} - {{tile.id}}</span><div style="clear:both:"></div>
 					</div>
 				</div>
 				
-				<br/>
+				<br />
 				
 				<form ng-submit="addToTileSet()">
 			        <input type="text" ng-model="newTileName" size="15" placeholder="New Tile Name" require/>  
-			        <input type="text" ng-model="newTileColor" size="15" placeholder="New Tile Color" require/><br/>
+			        <input type="color" ng-model="newTileColor" style="width: 25px;" value="#00ff00" require/><br/>
 			        <input type="checkbox" ng-model="newTilePassable"> <span>Passable</span>
 			        <input class="btn-primary" type="submit" value="add to tileset" >
-			 	</form>							
+			 	</form>	
 				
 				<br />
 				
 				<h5>Left Click / Right Click</h5>
 				<div style="width:70px; height:70px; background:{{selectedLeft['gfx']}}; display:inline-block;" ng-model="selectedLeft"></div>
 				<div style="width:70px; height:70px; background:{{selectedRight['gfx']}}; display:inline-block;" ng-model="selectedRight"></div>
+		
+				<h5>Brush Size: {{brushSize}}</h5>
+				
+				<input type="range" value="{{brushSize}}" ng-model="brushSize" min="0" max="7" ng-onchange="setBrushSize(this.value);"/> <br/>
+				
+				<div id="brush" style="background:black; border-radius:999px; display:inline-block; width:{{brushSize | timesTen}}; height:{{brushSize | timesTen}};"></div>
+				
 		
 			</div>
 
@@ -105,10 +112,11 @@
 			 		</div>
 			 	</div>
 			 	
-			 	<h3>Output</h3>
+			 	<br/><br/>
+			 	
 			 	<p class="lead">TileSet Key</p>
 <pre style="font-size:12px;">
-[<div class="tileSet" ng-repeat="tile in tileSet">	{ name: {{tile.name}}, id: {{tile.id}}, passable: {{tile.passable}} }{{$last | commaNotLast}}</div>]</pre>
+[<div class="tileSet" ng-repeat="tile in tileSet">	{ name: {{tile.name}}, id: {{tile.id}}, gfx: "{{tile.gfx}}", passable: {{tile.passable}} }{{$last | commaNotLast}}</div>]</pre>
 				
 				<br/>
 				<p class="lead">TileMap - Multi-Dimmensional Array</p>
