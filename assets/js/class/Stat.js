@@ -8,6 +8,7 @@ define( [ 'jquery' ], function( $ ){
 		this.name = name || "Default Stat";
 		this.base = base || 0;	// the total stat
 		this.effective = effective || 0; // the current stat
+		this.display = this.effective; // the value to display 
 		
 		this.description = description || "A short description of the stat goes here";
 	}

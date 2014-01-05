@@ -9,14 +9,14 @@ define( [ 'jquery', 'class/Canvas', 'class/Map', 'class/Player', 'class/Door' ],
 		// the target Frames Per Second / ( also the max )
 		this.fps = 60;
 		
-		this.tickRate = 1000; // tick every second
+		this.tickRate = 2000; // tick every second
+		
+		this.tickCount = 0; // the count - for determining per X tick calculations
 		
 		this.tickClock = setInterval(function(){
+			this.tickCount++;
 			console.log('Tick');
-			
-			
 			gameReference.tick();
-			
 		}, this.tickRate);
 		
 		/*
@@ -303,6 +303,8 @@ define( [ 'jquery', 'class/Canvas', 'class/Map', 'class/Player', 'class/Door' ],
 			
 		this.player.update( game );
 
+		this.player.updateStatDisplay();
+
 		this.calculateFPS();
 		
 	};
@@ -335,9 +337,13 @@ define( [ 'jquery', 'class/Canvas', 'class/Map', 'class/Player', 'class/Door' ],
 	
 	Game.prototype.drawFPS = function(context){
 		// Draw the Frame Rate
-		context.font = "10pt Open Sans";
-		context.fillStyle = "rgb(266,266,255)";
+		//context.font = "12pt Knewave";
+		context.font = "10pt 'Press Start 2P'";
+		context.lineWidth = 8;
+		context.strokeStyle = "rgb(0,0,0)";
+		context.fillStyle = "rgb(255,255,255)";
 		context.textAlign="end"; 
+		context.strokeText( "FPS " + Math.floor(this.calcFPS), this.canvas.width - 20 , 25);
 		context.fillText( "FPS " + Math.floor(this.calcFPS), this.canvas.width - 20 , 25);
 	};
 	
@@ -346,6 +352,8 @@ define( [ 'jquery', 'class/Canvas', 'class/Map', 'class/Player', 'class/Door' ],
 		if ( newMapIndex < this.mapList.length && newMapIndex >=0 ) {
 			// swap the active map
 			this.map = this.mapList[newMapIndex];
+			
+			this.map.mapNameOpacity = 1;
 			
 			//console.log(this.map.tileSet);
 			

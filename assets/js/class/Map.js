@@ -6,6 +6,8 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera', 'class/Door']
 		
 		this.name = name || "a Default Map";
 		
+		this.mapNameOpacity = 1;
+		
 		this.game = game;
 		
 		// the number of tilesTall and tilesWide of tiles on this map
@@ -128,8 +130,15 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera', 'class/Door']
 			
 		} 
 		
-		
-		
+		if ( this.mapNameOpacity > 0.0 ){
+			var seconds = 3,
+				oneStep = 1.0/(seconds * this.game.fps);
+
+			if ( this.mapNameOpacity - oneStep < 0.0 )
+				this.mapNameOpacity = 0.0;
+			else
+				this.mapNameOpacity = this.mapNameOpacity - oneStep;
+		}
 		
 	};
 
@@ -159,11 +168,24 @@ define( ['jquery', 'class/Tile', 'class/TileSet',  'class/Camera', 'class/Door']
 		 * the map name
 		 */
 		
-		// Draw the Map Name
-		context.textAlign="start"; 
-		context.font = "14pt Open Sans";
-		context.fillStyle = "rgb(255,255,255)";
-		context.fillText( ""+this.name+"" , 10, 28);
+		if ( this.mapNameOpacity >= 0 ){
+			
+			var op = "0.0";
+			
+			if (this.mapNameOpacity !== 0){
+				op = Math.round(this.mapNameOpacity*100)/100;
+			}
+			
+			// Draw the Map Name
+			context.textAlign="center"; 
+			context.font = "14pt 'Press Start 2P'";
+			context.lineWidth = 8;
+			context.strokeStyle = "rgba(0,0,0,"+op+")";
+			context.fillStyle = "rgba(255,255,255,"+op+")";
+			context.strokeText( ""+this.name+"", this.game.canvas.width/2, this.game.canvas.height/8.5 );
+			context.fillText( ""+this.name+"", this.game.canvas.width/2, this.game.canvas.height/8.5 );			
+		}   
+
 		
 	};
 	

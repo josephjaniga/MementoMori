@@ -50,6 +50,7 @@ define( ['jquery'], function( $ ){
 		
 		// draw the tile
 		context.fillStyle = this.color;
+		context.lineWidth = 1;
 		context.strokeStyle = "rgb(50,50,50)";
 		context.fillRect( this.x, this.y, this.width, this.height );
 		context.strokeRect( this.x, this.y, this.width, this.height );
