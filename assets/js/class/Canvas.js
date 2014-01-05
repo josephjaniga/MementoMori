@@ -29,7 +29,7 @@ define( [ 'jquery', 'class/Camera' ], function( $, Camera ){
 		this.el = document.getElementById("canvas");
 		this.ctx = this.el.getContext("2d");
 		
-		console.log("canvas init-ed");
+		console.info("Canvas Initialized");
 		
 	};
 	

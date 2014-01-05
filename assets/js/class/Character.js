@@ -215,14 +215,12 @@ define( ['jquery'], function( $ ){
 		this.oY = y;
 	};
 
-var bugger = false;
 
 	Character.prototype.isInDoor = function( game ){
 		var characterPosition = this.getTileCoordinates(),
 			gameRef = game,
 			charRef = this;
 			
-		
 		// for each door
 		game.doorList.forEach(function(door){
 			
@@ -270,6 +268,10 @@ var bugger = false;
 		 
 		 return { x: tileX, y: tileY };		
 	};
+	
+	
+
+	
 
 	return Character;
 	

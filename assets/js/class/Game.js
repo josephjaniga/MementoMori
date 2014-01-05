@@ -4,8 +4,20 @@ define( [ 'jquery', 'class/Canvas', 'class/Map', 'class/Player', 'class/Door' ],
 	
 	function Game () {
 		
+		 var gameReference = this;
+		
 		// the target Frames Per Second / ( also the max )
 		this.fps = 60;
+		
+		this.tickRate = 1000; // tick every second
+		
+		this.tickClock = setInterval(function(){
+			console.log('Tick');
+			
+			
+			gameReference.tick();
+			
+		}, this.tickRate);
 		
 		/*
 		 * FPS Calculation
@@ -108,6 +120,8 @@ define( [ 'jquery', 'class/Canvas', 'class/Map', 'class/Player', 'class/Door' ],
 				]
 			});
 		
+		
+		/*
 		var thePollutedMire2 = new Map( 38, 99, "Sky Garden", this );
 			
 			thePollutedMire2.init({
@@ -218,7 +232,7 @@ define( [ 'jquery', 'class/Canvas', 'class/Map', 'class/Player', 'class/Door' ],
 					[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 				]
 			});
-			
+		*/
 		
 		this.mapList.push( thePollutedMire2 );
 		
@@ -250,14 +264,13 @@ define( [ 'jquery', 'class/Canvas', 'class/Map', 'class/Player', 'class/Door' ],
 							));
 		
 		
-		console.log(this.doorList);
+		//console.log(this.doorList);
 		
 		//this.loadMap(1);
 		
 		// the user controlled player character
 		this.player = new Player(75, 75);
 		this.player.init(this);
-
 
 		
 	};
@@ -267,9 +280,8 @@ define( [ 'jquery', 'class/Canvas', 'class/Map', 'class/Player', 'class/Door' ],
 		// clear the canvas each draw?
 		this.map.draw(context);
 
-		this.player.draw(context);
+		this.player.drawPlayer( context );
 
-		//this.map.camera.draw(context);
 
         this.drawFPS(context);
 
@@ -310,7 +322,7 @@ define( [ 'jquery', 'class/Canvas', 'class/Map', 'class/Player', 'class/Door' ],
 			_super.update(_super);
 		}, 1000/this.fps );
 		
-		console.log("game init-ed");
+		console.info("Game Initialized");
 		this.running = true;
 		
 	};
@@ -326,7 +338,7 @@ define( [ 'jquery', 'class/Canvas', 'class/Map', 'class/Player', 'class/Door' ],
 		context.font = "10pt Open Sans";
 		context.fillStyle = "rgb(266,266,255)";
 		context.textAlign="end"; 
-		context.fillText( "FPS " + Math.floor(this.calcFPS), this.canvas.width - 20 , this.canvas.height - 20);
+		context.fillText( "FPS " + Math.floor(this.calcFPS), this.canvas.width - 20 , 25);
 	};
 	
 	Game.prototype.loadMap = function( newMapIndex ){
@@ -340,11 +352,18 @@ define( [ 'jquery', 'class/Canvas', 'class/Map', 'class/Player', 'class/Door' ],
 			// set the active tileset
 			this.map.tileSet = this.mapList[newMapIndex]['tileSet'];
 			
+			console.info('Map Loaded: '+ this.mapList[newMapIndex]['name']);
+			
 		} else {
 			console.error('this map does not exist');
 		}
 		 
 	};
+
+	Game.prototype.tick = function(){
+		this.player.tick();
+	};
+	
 
 	return Game;
 	
