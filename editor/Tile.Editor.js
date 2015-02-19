@@ -140,7 +140,7 @@ function TileEditorCtrl($scope){
 		$scope.tileSet.splice(index, 1);
 	};	
 	
-	$scope.updaateName = function( newName ){
+	$scope.updateName = function( newName ){
 		$scope.mapName = newName;
 	};
 	
