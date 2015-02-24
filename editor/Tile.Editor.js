@@ -2,6 +2,11 @@ var app = angular.module('TileEditor', []);
 
 function TileEditorCtrl($scope){
 	
+	$scope.tilesetFileName = "tilemap.png";
+	$scope.tileSize = 16;
+	$scope.tilesetWidth = 128; 
+	$scope.newTileSet = [];
+
 	$scope.tileSet = [
 		{ name: "Blank", id: '_', gfx:'rgb(133,133,133)', passable: true, pos: { x: 0, y: 0 }, hash: randomHash() },
 		{ name: 'Default Grass', id: 0, gfx: 'rgb(0,150,0)', passable: true, pos: { x: 0, y: 0 }, hash: randomHash() },

@@ -17,7 +17,6 @@
 	
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-
 	
 	<script src="Tile.Editor.js"></script>
 	
@@ -91,6 +90,9 @@
 				
 				<div id="brush" style="background:black; margin:0 auto !important; border-radius:999px; display:block; width:{{brushSize | timesTen}}; height:{{brushSize | timesTen}};"></div>
 				
+				<br/><br/>
+
+				<img src="tilemap.png">
 		
 			</div>
 
@@ -114,7 +116,8 @@
 			 	
 			 	<br/><br/>
 			 	
-			 	<p class="lead">TileSet Key & TileMap Array</p>
+			 	<p class="lead">TileSet Key &amp; TileMap Array</p>
+
 <pre style="font-size:11px;">{
 	mapName: "{{mapName}}",
 	tileSet: [<div class="tileSet" ng-repeat="tile in tileSet">		{ name: "{{tile.name}}", id: {{tile.id}}, gfx: "{{tile.gfx}}", passable: {{tile.passable}} }{{$last | commaNotLast}}</div>	],
