@@ -179,14 +179,14 @@ app.directive('onFinishRender', function ($timeout) {
 
 app.filter('commaNotLast', function(){
 	return	function(input){
-				return input == 1 ? '' : ',';
-			};
+			return input == 1 ? '' : ',';
+		};
 });
 
 app.filter('timesTen', function(){
 	return	function(input){
-				return input * 10 + 10 +"px";
-			};
+			return input * 10 + 10 +"px";
+		};
 });
 
 function randomHash(){
